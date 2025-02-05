@@ -73,7 +73,7 @@ The application uses SQLite to store imported CSV data. The database file (`data
 3. **Port Already in Use**
    - If you encounter a port conflict, change the port in the `app.run()` method in `app.py`:
    ```python
-   app.run(debug=True, port=5001)  # or any other available port
+   app.run(debug=True, port=5001) 
    ```
 
 4. **Permission Denied**
