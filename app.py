@@ -44,7 +44,8 @@ def create_database():
                   Surname TEXT NOT NULL,
                   Initials TEXT NOT NULL,
                   Age INTEGER NOT NULL,
-                  DateOfBirth TEXT NOT NULL)''')
+                  DateOfBirth TEXT NOT NULL,
+                  UNIQUE(Name, Surname, DateOfBirth))''')
     
     conn.commit()
     conn.close()
