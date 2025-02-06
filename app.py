@@ -55,9 +55,7 @@ def generate_random_date(age):
     today = datetime.now()
     birth_year = today.year - age
     
-    # Random month and day
     month = random.randint(1, 12)
-    # Account for different days in months
     max_day = 28 if month == 2 else 30 if month in [4, 6, 9, 11] else 31
     day = random.randint(1, max_day)
     
@@ -165,7 +163,6 @@ def upload():
         if not file.filename.endswith('.csv'):
             return "File must be CSV format", 400
         
-        # Save uploaded file
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
