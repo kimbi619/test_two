@@ -51,6 +51,24 @@ def create_database():
     conn.close()
 
 
+def convert_to_iso_date(date_str):
+    """
+    Convert DD/MM/YYYY to ISO format YYYY-MM-DD
+    """
+    try:
+        date_obj = datetime.strptime(date_str, '%d/%m/%Y')
+        
+        if date_obj > datetime.now():
+            return False, "Date cannot be in the future", None
+            
+        iso_date = date_obj.strftime('%Y-%m-%d')
+        return True, "", iso_date
+        
+    except ValueError as e:
+        return False, f"Invalid date format: {str(e)}", None
+
+
+
 def generate_random_date(age):
     """Generate random birth date based on age"""
     today = datetime.now()
@@ -100,8 +118,14 @@ def import_csv_to_db(file_path):
     with open(file_path, 'r') as csvfile:
         csv_reader = csv.reader(csvfile)
         next(csv_reader)  
-        
         for row in csv_reader:
+            is_valid, error_msg, iso_date = convert_to_iso_date(row[5])
+            
+            if not is_valid:
+                continue
+
+            row = list(row)
+            row[5] = iso_date
             c.execute('''INSERT INTO csv_import (Id, Name, Surname, Initials, Age, DateOfBirth)
                         VALUES (?, ?, ?, ?, ?, ?)''', row)
     
